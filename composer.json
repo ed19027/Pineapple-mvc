@@ -1,0 +1,15 @@
+{
+    "name": "eddcr/mvc-framework",
+    "authors": [
+        {
+            "name": "Edvards",
+            "email": "edd.creative.2000@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
