@@ -1,25 +1,39 @@
 <?php
+namespace app\models;
 
-namespace app\Models;
-
-use app\core\Model;
+use app\core\database\DatabaseModel as Model;
 
 class Subscription extends Model
 {
-    public string $email;
-    public bool $tos;
+    public string $email = '';
+    public string $tos = '';
+    public string $domain = '';
     
-    public function subscribe()
+    public function table(): string
     {
-        echo 'creating new user';
+        return 'emails'; //rename subscriptions
+    }
+
+    public function columns(): array
+    {
+        return ['email', 'domain', 'created_at'];
     }
 
     public function rules(): array     
     {
-        //  'property of this class' => [self:RULE]
         return [
-            'email' => [self::REQUIRED, self::EMAIL, self::UNIQUE, self::DOMAIN],
-            'tos' => [self::TOS]
+            'email' => [
+                self::REQUIRED_EMAIL,
+                self::EMAIL,
+                [self::TLD, 'tld' => 'co'],
+                [self::UNIQUE, 'class' => self::class]
+            ],
+            'tos' => [self::REQUIRED_TOS]
         ];
+    }
+
+    public function save()
+    {
+        return parent::save();
     }
 }
